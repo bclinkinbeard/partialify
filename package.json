@@ -1,0 +1,27 @@
+{
+  "name": "partialify",
+  "version": "1.0.0",
+  "description": "require()-able HTML, CSS, JSON and (potentially) more",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bclinkinbeard/partialify"
+  },
+  "keywords": [
+    "browserify",
+    "browserify-transform",
+    "require",
+    "static",
+    "asset",
+    "bundle",
+    "partial"
+  ],
+  "author": "Ben Clinkinbeard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bclinkinbeard/partialify/issues"
+  }
+}
