@@ -15,14 +15,20 @@ b.transform(p);
 b.bundle().pipe(fs.createWriteStream('./bundle.js'));
 ```
 
-To support other file types use the custom version. Note you must specify all supported types in this scenario.
+To support other file types use the custom version. You can either augment the default supported file types or specify a completely custom list.
 
 ```
 var b = require('browserify')(),
 	fs = require('fs'),
-	p = require('partialify/custom')(['html', 'css', 'json', 'hbs']);
+	p = require('partialify/custom');
 
 b.add('./entry.js');
-b.transform(p);
+
+b.transform(p.alsoAllow('xml'));
+// or
+b.transform(p.alsoAllow(['xml', 'csv']));
+// or
+b.transform(p.onlyAllow(['xml', 'csv']));
+
 b.bundle().pipe(fs.createWriteStream('./bundle.js'));
 ```
