@@ -12,6 +12,7 @@ var html = fs.readFileSync(__dirname + '/fixtures/fixture.html', 'utf8');
 var css = fs.readFileSync(__dirname + '/fixtures/fixture.css', 'utf8');
 var json = fs.readFileSync(__dirname + '/fixtures/fixture.json', 'utf8');
 var xml = fs.readFileSync(__dirname + '/fixtures/fixture.xml', 'utf8');
+var csv = fs.readFileSync(__dirname + '/fixtures/fixture.csv', 'utf8');
 
 test('require() an HTML file', function (t) {
   t.plan(1);
@@ -26,7 +27,7 @@ test('require() an HTML file', function (t) {
   });
 
   function log (msg) {
-    t.equal(html, msg);
+    t.equal(msg, html);
   }
 
 });
@@ -44,7 +45,7 @@ test('require() a CSS file', function (t) {
   });
 
   function log (msg) {
-    t.equal(css, msg);
+    t.equal(msg, css);
   }
 
 });
@@ -62,25 +63,73 @@ test('require() a JSON file', function (t) {
   });
 
   function log (msg) {
-    t.equal(json, msg);
+    t.equal(msg, json);
   }
 
 });
 
-test('require() an XML file', function (t) {
-  t.plan(1);
+test('Default behavior accepts HTML, CSS and JSON', function (t) {
+  t.plan(3);
+
+  var output = {};
 
   var b = browserify();
-  b.add(__dirname + '/runners/xml.js');
+  b.add(__dirname + '/runners/defaults.js');
+  b.transform(partialify);
+
+  b.bundle(function (err, src) {
+    if (err) t.fail(err);
+    vm.runInNewContext(src, { output: output, finish: finish });
+  });
+
+  function finish () {
+    t.equal(output.html, html);
+    t.equal(output.css, css);
+    t.equal(output.json, json);
+  }
+
+});
+
+test('Support for extra file types can be added', function (t) {
+  t.plan(4);
+
+  var output = {};
+
+  var b = browserify();
+  b.add(__dirname + '/runners/extras.js');
   b.transform(customPartialify.alsoAllow('xml'));
 
   b.bundle(function (err, src) {
     if (err) t.fail(err);
-    vm.runInNewContext(src, { console: { log: log } });
+    vm.runInNewContext(src, { output: output, finish: finish });
   });
 
-  function log (msg) {
-    t.equal(xml, msg);
+  function finish () {
+    t.equal(output.html, html);
+    t.equal(output.css, css);
+    t.equal(output.json, json);
+    t.equal(output.xml, xml);
+  }
+
+});
+
+test('Supported file types list can be completely custom', function (t) {
+  t.plan(2);
+
+  var output = {};
+
+  var b = browserify();
+  b.add(__dirname + '/runners/unique.js');
+  b.transform(customPartialify.onlyAllow(['xml', 'csv']));
+
+  b.bundle(function (err, src) {
+    if (err) t.fail(err);
+    vm.runInNewContext(src, { output: output, finish: finish });
+  });
+
+  function finish () {
+    t.equal(output.xml, xml);
+    t.equal(output.csv, csv);
   }
 
 });
