@@ -11,6 +11,7 @@
     "url": "https://github.com/bclinkinbeard/partialify"
   },
   "keywords": [
+    "browser",
     "browserify",
     "browserify-transform",
     "require",
