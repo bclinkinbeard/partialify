@@ -13,6 +13,7 @@ var css = fs.readFileSync(__dirname + '/fixtures/fixture.css', 'utf8');
 var json = fs.readFileSync(__dirname + '/fixtures/fixture.json', 'utf8');
 var xml = fs.readFileSync(__dirname + '/fixtures/fixture.xml', 'utf8');
 var csv = fs.readFileSync(__dirname + '/fixtures/fixture.csv', 'utf8');
+var tplhtml = fs.readFileSync(__dirname + '/fixtures/fixture.tpl.html', 'utf8');
 
 test('require() an HTML file', function (t) {
   t.plan(1);
@@ -130,6 +131,26 @@ test('Supported file types list can be completely custom', function (t) {
   function finish () {
     t.equal(output.xml, xml);
     t.equal(output.csv, csv);
+  }
+
+});
+
+test('Compound file extensions are supported', function (t) {
+  t.plan(1);
+
+  var output = {};
+
+  var b = browserify();
+  b.add(__dirname + '/runners/tpl.html.js');
+  b.transform(customPartialify.onlyAllow(['tpl.html']));
+
+  b.bundle(function (err, src) {
+    if (err) t.fail(err);
+    vm.runInNewContext(src, { console: { log: log } });
+  });
+
+  function log (msg) {
+    t.equal(msg, tplhtml);
   }
 
 });

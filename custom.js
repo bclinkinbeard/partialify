@@ -3,7 +3,9 @@ var through = require('through'),
   types = ['html', 'css', 'json'];
 
 function isValidFile (file) {
-  return types.indexOf(file.split(".").pop()) > -1;
+  return types.some(function (type) {
+    return file.substr(-(type.length)) === type;
+  });
 }
 
 function partialify (file) {
