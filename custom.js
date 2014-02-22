@@ -1,6 +1,6 @@
 var through = require('through'),
   str2js = require('string-to-js'),
-  types = ['html', 'css', 'json'];
+  types = ['html', 'css'];
 
 function isValidFile (file) {
   return types.some(function (type) {
@@ -18,22 +18,23 @@ function partialify (file) {
       buffer += chunk.toString();
     },
     function () {
-      if (buffer.indexOf('module.exports') === 0) {
-        this.queue(buffer); // prevent "double" transforms
-      } else {
-        this.queue(str2js(buffer));
-      }
+      this.queue(str2js(buffer));
       this.queue(null);
     });
 
 };
 
 exports.onlyAllow = function (extensions) {
-  if (extensions) types = extensions;
+  if (extensions) {
+    if (!Array.isArray(extensions)) extensions = Array.prototype.slice.call(arguments, 0);
+    
+    types = extensions;
+  }
   return partialify;
 }
 
 exports.alsoAllow = function (extensions) {
+  if (!Array.isArray(extensions)) extensions = Array.prototype.slice.call(arguments, 0);
   types = types.concat(extensions);
   return partialify;
 }

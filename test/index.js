@@ -51,26 +51,8 @@ test('require() a CSS file', function (t) {
 
 });
 
-test('require() a JSON file', function (t) {
-  t.plan(1);
-
-  var b = browserify();
-  b.add(__dirname + '/runners/json.js');
-  b.transform(partialify);
-
-  b.bundle(function (err, src) {
-    if (err) t.fail(err);
-    vm.runInNewContext(src, { console: { log: log } });
-  });
-
-  function log (msg) {
-    t.equal(msg, json);
-  }
-
-});
-
-test('Default behavior accepts HTML, CSS and JSON', function (t) {
-  t.plan(3);
+test('Default behavior accepts HTML and CSS', function (t) {
+  t.plan(2);
 
   var output = {};
 
@@ -86,7 +68,6 @@ test('Default behavior accepts HTML, CSS and JSON', function (t) {
   function finish () {
     t.equal(output.html, html);
     t.equal(output.css, css);
-    t.equal(output.json, json);
   }
 
 });
@@ -98,7 +79,7 @@ test('Support for extra file types can be added', function (t) {
 
   var b = browserify();
   b.add(__dirname + '/runners/extras.js');
-  b.transform(customPartialify.alsoAllow('xml'));
+  b.transform(customPartialify.alsoAllow('json', 'xml'));
 
   b.bundle(function (err, src) {
     if (err) t.fail(err);
@@ -137,8 +118,6 @@ test('Supported file types list can be completely custom', function (t) {
 
 test('Compound file extensions are supported', function (t) {
   t.plan(1);
-
-  var output = {};
 
   var b = browserify();
   b.add(__dirname + '/runners/tpl.html.js');
