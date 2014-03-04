@@ -95,6 +95,27 @@ test('Support for extra file types can be added', function (t) {
 
 });
 
+test('Support for extra file types can be added via options', function (t) {
+  t.plan(2);
+
+  var output = {};
+
+  var b = browserify();
+  b.add(__dirname + '/runners/opts.js');
+  b.transform({ alsoAllow: ['xml'] }, partialify);
+
+  b.bundle(function (err, src) {
+    if (err) t.fail(err);
+    vm.runInNewContext(src, { output: output, finish: finish });
+  });
+
+  function finish () {
+    t.equal(output.html, html);
+    t.equal(output.xml, xml);
+  }
+
+});
+
 test('Supported file types list can be completely custom', function (t) {
   t.plan(2);
 
@@ -112,6 +133,26 @@ test('Supported file types list can be completely custom', function (t) {
   function finish () {
     t.equal(output.xml, xml);
     t.equal(output.csv, csv);
+  }
+
+});
+
+test('Supported file types list can be completely customized via options', function (t) {
+  t.plan(1);
+
+  var output = {};
+
+  var b = browserify();
+  b.add(__dirname + '/runners/unique.js');
+  b.transform({ onlyAllow: 'xml' }, partialify);
+
+  b.bundle(function (err, src) {
+    if (err) t.fail(err);
+    vm.runInNewContext(src, { output: output, finish: finish });
+  });
+
+  function finish () {
+    t.equal(output.xml, xml);
   }
 
 });

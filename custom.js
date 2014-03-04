@@ -2,15 +2,20 @@ var through = require('through'),
   str2js = require('string-to-js'),
   types = ['html', 'css'];
 
-function isValidFile (file) {
-  return types.some(function (type) {
+function isValidFile (file, opts) {
+  var validTypes = types;
+  if (opts && opts.onlyAllow) validTypes = opts.onlyAllow;
+  if (opts && opts.alsoAllow) validTypes = validTypes.concat(opts.alsoAllow);
+  if (!Array.isArray(validTypes)) validTypes = [validTypes];
+
+  return validTypes.some(function (type) {
     return file.substr(-(type.length)) === type;
   });
 }
 
-function partialify (file) {
+function partialify (file, opts) {
 
-  if (!isValidFile(file)) return through();
+  if (!isValidFile(file, opts)) return through();
 
   var buffer = "";
 
@@ -27,7 +32,7 @@ function partialify (file) {
 exports.onlyAllow = function (extensions) {
   if (extensions) {
     if (!Array.isArray(extensions)) extensions = Array.prototype.slice.call(arguments, 0);
-    
+
     types = extensions;
   }
   return partialify;
