@@ -5,7 +5,7 @@ require()-able HTML, CSS, JSON and (potentially) more
 
 Supports HTML, CSS and JSON out of the box.
 
-```
+```js
 var b = require('browserify')(),
 	fs = require('fs'),
 	p = require('partialify');
@@ -17,7 +17,7 @@ b.bundle().pipe(fs.createWriteStream('./bundle.js'));
 
 To support other file types use the custom version. You can either augment the default supported file types or specify a completely custom list.
 
-```
+```js
 var b = require('browserify')(),
 	fs = require('fs'),
 	p = require('partialify/custom');
