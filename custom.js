@@ -23,7 +23,11 @@ function partialify (file, opts) {
       buffer += chunk.toString();
     },
     function () {
-      this.queue(str2js(buffer));
+      if (buffer.indexOf('module.exports') === 0) {
+        this.queue(buffer); // prevent "double" transforms
+      } else {
+        this.queue(str2js(buffer));
+      }
       this.queue(null);
     });
 
