@@ -1,9 +1,9 @@
 partialify
 ==========
 
-require()-able HTML, CSS, JSON and (potentially) more
+require()-able HTML, CSS and (potentially) more
 
-Supports HTML, CSS and JSON out of the box.
+Supports HTML and CSS out of the box.
 
 ```js
 var b = require('browserify')(),
