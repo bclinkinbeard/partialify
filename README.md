@@ -3,8 +3,13 @@ partialify
 
 require()-able HTML, CSS and (potentially) more
 
-Supports HTML and CSS out of the box.
+Supports HTML and CSS out of the box, enabling code like this.
+```js
+var html = require('./some.html'),
+	css = require('./some.css');
+```
 
+To use, specify as a Browserify transform in your `package.json` or programmatically like so:
 ```js
 var b = require('browserify')(),
 	fs = require('fs'),
