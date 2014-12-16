@@ -144,7 +144,7 @@ test('Supported file types list can be completely customized via options', funct
 
   var b = browserify();
   b.add(__dirname + '/runners/unique.js');
-  b.transform({ onlyAllow: 'xml' }, partialify);
+  b.transform(partialify, {onlyAllow: ['xml', 'csv']});
 
   b.bundle(function (err, src) {
     if (err) t.fail(err);
