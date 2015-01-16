@@ -138,7 +138,7 @@ test('Supported file types list can be completely custom', function (t) {
 });
 
 test('Supported file types list can be completely customized via options', function (t) {
-  t.plan(1);
+  t.plan(2);
 
   var output = {};
 
@@ -153,6 +153,7 @@ test('Supported file types list can be completely customized via options', funct
 
   function finish () {
     t.equal(output.xml, xml);
+    t.equal(output.csv, csv);
   }
 
 });
