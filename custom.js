@@ -1,5 +1,4 @@
 var through = require('through'),
-  str2js = require('string-to-js'),
   types = ['html', 'css'];
 
 function isValidFile (file, opts) {
@@ -26,7 +25,7 @@ function partialify (file, opts) {
       if (buffer.indexOf('module.exports') === 0) {
         this.queue(buffer); // prevent "double" transforms
       } else {
-        this.queue(str2js(buffer));
+        this.queue('module.exports = ' + JSON.stringify(buffer));
       }
       this.queue(null);
     });
