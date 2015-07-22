@@ -1,6 +1,6 @@
 {
   "name": "partialify",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "require()-able HTML, CSS, and (potentially) more",
   "main": "index.js",
   "scripts": {
