@@ -37,3 +37,9 @@ b.transform(p.onlyAllow(['xml', 'csv']));
 
 b.bundle().pipe(fs.createWriteStream('./bundle.js'));
 ```
+
+### Customizing from the CLI
+
+`browserify index.js -t [ partialify --alsoAllow svg --alsoAllow xml ] -o bundle.js`
+
+`browserify index.js -t [ partialify --onlyAllow svg --onlyAllow tsv ] -o bundle.js`
