@@ -1,7 +1,7 @@
 partialify
 ==========
 
-require()-able HTML, CSS and (potentially) more
+require() file contents of HTML, CSS and (potentially) more into a variable as a string.
 
 Supports HTML and CSS out of the box, enabling code like this.
 ```js
