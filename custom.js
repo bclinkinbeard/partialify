@@ -9,7 +9,7 @@ function isValidFile (file, opts) {
   if (!Array.isArray(validTypes)) validTypes = [validTypes];
 
   return validTypes.some(function (type) {
-    return file.substr(-(type.length)) === type;
+    return file.substr(-(type.length + 1)) === '.' + type;
   });
 }
 
